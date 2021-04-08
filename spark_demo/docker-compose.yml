@@ -47,6 +47,6 @@ services:
       - "moby:127.0.0.1"
 
   jupyter-client:
-    image: pyspark_jupyter
+    image: jupyter/pyspark-notebook
     ports:
       - '8888:8888'

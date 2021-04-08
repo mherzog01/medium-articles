@@ -5,9 +5,9 @@ Demo source:  https://towardsdatascience.com/building-a-real-time-prediction-pip
         git clone https://github.com/BogdanCojocar/medium-articles
 2.  Installed ```docker-compose``` (not needed.  Can use ```docker compose up```)
         sudo apt install docker-compose
-3.  Created Conda virtual environment
+3.  Created Conda virtual environment (not needed)
         conda create --name spark_demo
-4.  Installed Python packages
+4.  Installed Python packages (not needed)
         In ```spark_demo```
             conda install findspark
             conda install jupyter  (may not be needed)
@@ -17,7 +17,7 @@ Demo source:  https://towardsdatascience.com/building-a-real-time-prediction-pip
         In ```base``` (may not be needed)
             Per https://stackoverflow.com/questions/39604271/conda-environments-not-showing-up-in-jupyter-notebook/43197286#43197286
                 conda install nb_conda_kernels 
-5.  Created Spark instance
+5.  Created Spark instance (not needed)
         A.  Created ./spark_bitnami
         B.  Created ```docker-compose.yml``` from https://github.com/bitnami/bitnami-docker-spark
 x6.  Built jupyter-client for the demo
@@ -34,14 +34,12 @@ x        docker build -t spark_demo_jupyter_client .
         conda install flask
         conda install nltk
         cd work
-        git clone https://github.com/BogdanCojocar/medium-articles
+        git clone https://github.com/mherzog01/medium-articles
         cd medium-articles/realtime_kafka
         cp * ../..
         Install new version of Kafka .jar (per https://spark.apache.org/docs/3.1.1/structured-streaming-kafka-integration.html#content):
-            cd 
-            cd .ivy2/jars
+            cd /opt/conda/lib/python3.8/site-packages/pyspark/jars
             wget https://repo1.maven.org/maven2/org/apache/spark/spark-sql-kafka-0-10_2.12/3.0.0/spark-sql-kafka-0-10_2.12-3.0.0.jar
-            mv spark-sql-kafka-0-10_2.12-3.0.0.jar org.apache.spark_spark-sql-kafka-0-10_2.12-3.0.0.jar
 
         Stop container
         docker commit <container name> pyspark_jupyter
@@ -66,7 +64,12 @@ x        docker build -t spark_demo_jupyter_client .
         docker_compose up
 
 
-# Notes
+# Notes - design decisions
+1.  Can't run notebook outside of Docker because Spark is not installed there
+2.  The Docker image `jupyter/minimal-notebook` lacks the following
+        - Java installed
+
+# Notes - research
 
 ## Spark and Docker
 * From Bitnami:https://hub.docker.com/r/bitnami/spark/
@@ -130,7 +133,7 @@ Check if port is in use with Python
 # https://stackoverflow.com/questions/2470971/fast-way-to-test-if-a-port-is-in-use-using-python
     import socket
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-        return s.connect_ex(('localhost', port)) == 0
+        print(s.connect_ex(('localhost', port)) == 0)
 
 
 # Courses
