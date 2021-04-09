@@ -47,6 +47,10 @@ services:
       - "moby:127.0.0.1"
 
   jupyter-client:
-    image: jupyter/pyspark-notebook
+    image: demo-pyspark-notebook
     ports:
       - '8888:8888'
+    # Want the jupyter-client to start last so we can more easily see the URL/Token to use when launching Jupyter Labs in the browser
+    depends_on:
+      - kafka
+  
